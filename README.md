@@ -316,37 +316,47 @@ SwiftPath
 
 ## Customer Dashboard
 
-> Add screenshot here
+<p align="center">
+  <img src="screenshots/customer_dashboard.png" width="90%">
+</p>
 
 ---
 
 ## Place Order
 
-> Add screenshot here
+<p align="center">
+  <img src="screenshots/place_order.png" width="90%">
+</p>
 
 ---
 
 ## Live Tracking
 
-> Add screenshot here
+<p align="center">
+  <img src="screenshots/track_order.png" width="90%">
+</p>
 
 ---
 
-## Dijkstra Visualization
+## Dark Mode
 
-> Add screenshot here
-
+<p align="center">
+  <img src="screenshots/dark-mode.png" width="90%">
+</p>
 ---
 
 ## Admin Mission Control
 
-> Add screenshot here
-
+<p align="center">
+  <img src="screenshots/admin_dashboard.png" width="90%">
+</p>
 ---
 
-## System Architecture
+## Analytics Page
 
-> Add screenshot here
+<p align="center">
+  <img src="screenshots/analytics.png" width="90%">
+</p>
 
 ---
 
