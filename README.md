@@ -1,7 +1,11 @@
-# 🚁 SwiftPath – Smart Drone Delivery & Route Optimization System
+<p align="center">
+  <img src="assets/banner.png" alt="SwiftPath Banner" width="100%">
+</p>
+
+<h1 align="center">🚁 SwiftPath - Smart Drone Delivery System</h1>
 
 <p align="center">
-  <img src="assets/logo.png" width="180" alt="SwiftPath Logo"/>
+An intelligent drone delivery platform using <b>Greedy Algorithm</b> for Battery-Aware Drone Selection and <b>Dijkstra's Algorithm</b> for Route Optimization.
 </p>
 
 <p align="center">
