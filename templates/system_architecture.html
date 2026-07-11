@@ -1,0 +1,376 @@
+{% extends "base.html" %}
+
+{% block title %}System Architecture - Swiftpath{% endblock %}
+
+{% block head %}
+<style>
+    .arch-card {
+        border-radius: var(--border-radius-lg);
+        background-color: hsl(var(--surface));
+        border: 1px solid hsl(var(--border)) !important;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+    .arch-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+    .badge-tech {
+        font-size: 10px;
+        font-weight: 600;
+        background-color: hsla(var(--primary-color), 0.1);
+        color: hsl(var(--primary-color));
+        border: 1px solid hsla(var(--primary-color), 0.2);
+        border-radius: 4px;
+        padding: 2px 6px;
+    }
+    .diagram-svg {
+        background-color: hsl(var(--surface-variant));
+        border: 1px solid hsl(var(--border));
+        border-radius: var(--border-radius-lg);
+        width: 100%;
+        max-width: 1000px;
+        height: auto;
+    }
+    .node-rect {
+        fill: hsl(var(--surface));
+        stroke: hsl(var(--border));
+        stroke-width: 1.5px;
+        transition: fill 0.2s, stroke 0.2s;
+        cursor: pointer;
+    }
+    .node-rect:hover {
+        fill: hsla(var(--primary-color), 0.08);
+        stroke: hsl(var(--primary-color));
+    }
+    .node-text {
+        fill: hsl(var(--text-primary));
+        font-size: 11px;
+        font-weight: 600;
+        text-anchor: middle;
+        pointer-events: none;
+    }
+    .arrow-line {
+        stroke: hsl(var(--text-muted));
+        stroke-width: 1.5px;
+        fill: none;
+    }
+    .database-node {
+        stroke: hsl(var(--info-color));
+    }
+    .database-node:hover {
+        fill: hsla(var(--info-color), 0.08);
+        stroke: hsl(var(--info-color));
+    }
+    .highlight-glow {
+        filter: drop-shadow(0px 2px 4px rgba(var(--primary-color-rgb), 0.2));
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header Banner -->
+<section class="dashboard-header py-4 text-white" style="background: linear-gradient(135deg, hsl(var(--primary-color)), hsl(var(--primary-dark)));">
+    <div class="container">
+        <h1 class="display-6 fw-bold mb-2">System Architecture &amp; Data Flow</h1>
+        <p class="lead mb-0 text-white opacity-75" style="font-size: 1rem;">
+            A detailed overview of the algorithms, telemetry streams, and services powering Swiftpath.
+        </p>
+    </div>
+</section>
+
+<div class="container py-4">
+    <!-- Interactive Architecture Diagram -->
+    <div class="card arch-card mb-5 border-0 shadow-sm">
+        <div class="card-header bg-transparent py-3">
+            <h5 class="mb-0 fw-bold d-flex align-items-center">
+                <i data-feather="git-pull-request" class="me-2 text-primary"></i>
+                High-Level Pipeline &amp; Telemetry Loop
+            </h5>
+        </div>
+        <div class="card-body p-4 text-center">
+            <svg class="diagram-svg" viewBox="0 0 1000 350" width="100%">
+                <defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--text-muted))" />
+                    </marker>
+                    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--primary-color))" />
+                    </marker>
+                </defs>
+
+                <!-- Customer App Node -->
+                <g transform="translate(10, 40)">
+                    <rect class="node-rect" width="120" height="50" rx="6" />
+                    <text class="node-text" x="60" y="28">Customer UI</text>
+                    <text class="node-text" x="60" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">Order / Track</text>
+                </g>
+                <line class="arrow-line" x1="130" y1="65" x2="160" y2="65" marker-end="url(#arrow)" />
+
+                <!-- Auth Gating Node -->
+                <g transform="translate(170, 40)">
+                    <rect class="node-rect" width="100" height="50" rx="6" />
+                    <text class="node-text" x="50" y="28">Auth Gating</text>
+                    <text class="node-text" x="50" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">Flask-Login</text>
+                </g>
+                <line class="arrow-line" x1="270" y1="65" x2="300" y2="65" marker-end="url(#arrow)" />
+
+                <!-- Order Processing Engine -->
+                <g transform="translate(310, 40)">
+                    <rect class="node-rect" width="110" height="50" rx="6" />
+                    <text class="node-text" x="55" y="28">Order Engine</text>
+                    <text class="node-text" x="55" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">Weight Validation</text>
+                </g>
+                <line class="arrow-line" x1="420" y1="65" x2="450" y2="65" marker-end="url(#arrow)" />
+
+                <!-- Greedy Selection Node -->
+                <g transform="translate(460, 40)">
+                    <rect class="node-rect" width="110" height="50" rx="6" />
+                    <text class="node-text" x="55" y="28">Greedy Selection</text>
+                    <text class="node-text" x="55" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">Drone Dispatcher</text>
+                </g>
+                <line class="arrow-line" x1="570" y1="65" x2="600" y2="65" marker-end="url(#arrow)" />
+
+                <!-- Dijkstra Optimizer -->
+                <g transform="translate(610, 40)">
+                    <rect class="node-rect" width="110" height="50" rx="6" />
+                    <text class="node-text" x="55" y="28">Dijkstra Routing</text>
+                    <text class="node-text" x="55" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">TSP Path Planner</text>
+                </g>
+                <line class="arrow-line" x1="720" y1="65" x2="750" y2="65" marker-end="url(#arrow)" />
+
+                <!-- Simulation/Tracking Node -->
+                <g transform="translate(760, 40)">
+                    <rect class="node-rect" width="100" height="50" rx="6" />
+                    <text class="node-text" x="50" y="28">Live Tracking</text>
+                    <text class="node-text" x="50" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">Coordinates Stream</text>
+                </g>
+                <line class="arrow-line" x1="860" y1="65" x2="880" y2="65" marker-end="url(#arrow)" />
+
+                <!-- Admin Dashboard Node -->
+                <g transform="translate(890, 40)">
+                    <rect class="node-rect" width="100" height="50" rx="6" />
+                    <text class="node-text" x="50" y="28">Admin Control</text>
+                    <text class="node-text" x="50" y="42" font-size="8" font-weight="normal" fill="hsl(var(--text-muted))">Mission Control</text>
+                </g>
+
+                <!-- Database Node (Shared State Layer) -->
+                <g transform="translate(465, 230)">
+                    <rect class="node-rect database-node" width="100" height="60" rx="8" />
+                    <text class="node-text" x="50" y="32">Database Layer</text>
+                    <text class="node-text" x="50" y="46" font-size="8" font-weight="normal" fill="hsl(var(--info-color))">SQLAlchemy</text>
+                    <text class="node-text" x="50" y="54" font-size="7" font-weight="normal" fill="hsl(var(--text-muted))">SQLite / Postgres</text>
+                </g>
+
+                <!-- Database Connective Lines -->
+                <path class="arrow-line" d="M 365 90 L 365 260 L 465 260" stroke-dasharray="4,4" />
+                <path class="arrow-line" d="M 515 90 L 515 230" stroke-dasharray="4,4" />
+                <path class="arrow-line" d="M 665 90 L 665 260 L 565 260" stroke-dasharray="4,4" />
+
+                <!-- Feedback Telemetry Loop -->
+                <path class="arrow-line" d="M 940 90 L 940 180 L 70 180 L 70 90" stroke="hsl(var(--primary-color))" stroke-width="2px" marker-end="url(#arrow-blue)" />
+                <text x="505" y="174" text-anchor="middle" font-size="10" font-weight="bold" fill="hsl(var(--primary-color))">Real-Time Telemetry &amp; Event Log Updates</text>
+            </svg>
+            <p class="small text-muted mt-2 mb-0">
+                Figure 1: Modular architecture depicting how the ordering client gates authorization, performs dispatch and routing, seeds state in DB, and pipes coordinates back to operators.
+            </p>
+        </div>
+    </div>
+
+    <!-- Core Pipeline Details Grid -->
+    <div class="row g-4 mb-5">
+        <!-- Module 1: Customer UI -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-primary-subtle text-primary"><i data-feather="user"></i></div>
+                        <h6 class="mb-0 fw-bold">Customer Portal</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Provides a responsive interface where clients register profiles, manage shopping carts, map destination pins dynamically, and view a visual live timeline showing order dispatch states.
+                    </p>
+                    <span class="badge-tech">Jinja2</span>
+                    <span class="badge-tech">Bootstrap 5</span>
+                    <span class="badge-tech">Leaflet.js</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Authentication -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-success-subtle text-success"><i data-feather="lock"></i></div>
+                        <h6 class="mb-0 fw-bold">Authentication Flow</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Secures access points using role-based routing. Authenticates vendor, administrator, and customer accounts, keeping operations tables and dashboard telemetries strictly restricted.
+                    </p>
+                    <span class="badge-tech">Flask-Login</span>
+                    <span class="badge-tech">Bcrypt</span>
+                    <span class="badge-tech">Session State</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: Order Processing -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-info-subtle text-info"><i data-feather="settings"></i></div>
+                        <h6 class="mb-0 fw-bold">Order Processing</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Validates order payloads. Checks item weights against drone carrying capacity, computes geographical centroids of selected items, and dispatches the job to the optimization pipelines.
+                    </p>
+                    <span class="badge-tech">Python Backend</span>
+                    <span class="badge-tech">Weight Validation</span>
+                    <span class="badge-tech">Transaction Gating</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: Greedy Drone Selection -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-warning-subtle text-warning"><i data-feather="cpu"></i></div>
+                        <h6 class="mb-0 fw-bold">Greedy Drone Selection</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Resolves fleet assignment by sorting available idle drones. Evaluates battery capacities, locations, and distance costs, picking the optimal matching drone in $O(N)$ sorting complexity.
+                    </p>
+                    <span class="badge-tech">Greedy Algorithm</span>
+                    <span class="badge-tech">Proximity Indexing</span>
+                    <span class="badge-tech">Battery Constraints</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 5: Dijkstra Routing -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-success-subtle text-success"><i data-feather="map-pin"></i></div>
+                        <h6 class="mb-0 fw-bold">Dijkstra Path Optimization</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Computes the shortest distance path connecting the assigned warehouse list and the delivery waypoint. Leverages standard Delaunay-mesh mesh indexing to plan routes.
+                    </p>
+                    <span class="badge-tech">Dijkstra's Algorithm</span>
+                    <span class="badge-tech">TSP Heuristics</span>
+                    <span class="badge-tech">$O(V \log V + E)$</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 6: Warehouses -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-primary-subtle text-primary"><i data-feather="home"></i></div>
+                        <h6 class="mb-0 fw-bold">Warehouse Management</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Organizes 8 standardized regional hubs around Dehradun coordinates. Links products catalog (Pharmacy, Grocery, Electronics) to specific warehouse hubs to model picking constraints.
+                    </p>
+                    <span class="badge-tech">Standardized Grid</span>
+                    <span class="badge-tech">Geographic Coordinates</span>
+                    <span class="badge-tech">Stock Control</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 7: Database -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-info-subtle text-info"><i data-feather="database"></i></div>
+                        <h6 class="mb-0 fw-bold">Persistence Database</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Stores users, drones, orders, routes, and logs. Integrates automatic fallback to SQLite for local development, and switches to Postgres in production without requiring code alterations.
+                    </p>
+                    <span class="badge-tech">SQLAlchemy ORM</span>
+                    <span class="badge-tech">SQLite fallback</span>
+                    <span class="badge-tech">PostgreSQL compatible</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 8: Delivery Tracking -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-warning-subtle text-warning"><i data-feather="navigation"></i></div>
+                        <h6 class="mb-0 fw-bold">Delivery Tracking</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Simulates flight paths, updates progress %, and drains battery (1% per 3km). Feeds coordinate polylines back to Leaflet and updates event logs dynamically using async status APIs.
+                    </p>
+                    <span class="badge-tech">Linear Interpolation</span>
+                    <span class="badge-tech">Battery Simulator</span>
+                    <span class="badge-tech">JSON Status API</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 9: Admin Dashboard -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card arch-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="p-2 rounded bg-danger-subtle text-danger"><i data-feather="terminal"></i></div>
+                        <h6 class="mb-0 fw-bold">Admin Mission Control</h6>
+                    </div>
+                    <p class="small text-muted">
+                        Logistics dashboard featuring live telemetry feeds, 8 metric KPI cards, event logs, route polylines, and interactive Chart.js analytics graphs tracking performance.
+                    </p>
+                    <span class="badge-tech">Chart.js Analytics</span>
+                    <span class="badge-tech">Telemetry log</span>
+                    <span class="badge-tech">Route Polyline layer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DAA Interview Placement Highlights -->
+    <div class="card arch-card border-0 shadow-sm mb-4">
+        <div class="card-header bg-transparent py-3">
+            <h5 class="mb-0 fw-bold d-flex align-items-center">
+                <i data-feather="award" class="me-2 text-warning"></i>
+                Placement Interview Highlights (DAA Focus)
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-primary">Algorithmic Depth</h6>
+                    <p class="small text-muted">
+                        Swiftpath isn't just a CRUD application; it operates a **Two-Tier Optimization Pipeline**:
+                        <br>1. <strong>Fleet Dispatch</strong>: Uses a <em>Greedy heuristics</em> approach based on Euclidean distances and battery limits.
+                        <br>2. <strong>Route Planning</strong>: Leverages <em>Dijkstra's Single-Source Shortest Path</em> over a modeled mesh grid to minimize delivery path costs and predict battery usage before dispatching.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-success">Software Engineering Best Practices</h6>
+                    <p class="small text-muted">
+                        - <strong>State Separation</strong>: Calculations are computed on the server side using SQLite/Postgres persistence, while UI rendering is completely decoupled.
+                        - <strong>Safe DB Migrations</strong>: Seed operations only occur if tables are completely empty, safeguarding staging and production assets.
+                        - <strong>Visualizations</strong>: Dynamic SVG projection algorithms avoid overlapping labels and nodes on the tracking dashboard.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

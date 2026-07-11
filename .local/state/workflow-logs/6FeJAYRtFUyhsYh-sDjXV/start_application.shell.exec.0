@@ -1,0 +1,5 @@
+[2026-07-10 10:54:14 +0000] [955] [INFO] Starting gunicorn 23.0.0
+[2026-07-10 10:54:14 +0000] [955] [INFO] Listening at: http://0.0.0.0:5000 (955)
+[2026-07-10 10:54:14 +0000] [955] [INFO] Using worker: sync
+[2026-07-10 10:54:14 +0000] [966] [INFO] Booting worker with pid: 966
+INFO:root:Startup seeding complete

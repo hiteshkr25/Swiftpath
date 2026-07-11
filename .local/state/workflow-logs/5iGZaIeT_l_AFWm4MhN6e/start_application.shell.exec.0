@@ -1,0 +1,22 @@
+[2026-07-10 10:43:22 +0000] [644] [INFO] Starting gunicorn 23.0.0
+[2026-07-10 10:43:22 +0000] [644] [INFO] Listening at: http://0.0.0.0:5000 (644)
+[2026-07-10 10:43:22 +0000] [644] [INFO] Using worker: sync
+[2026-07-10 10:43:22 +0000] [655] [INFO] Booting worker with pid: 655
+INFO:root:Seeded warehouses - removed duplicates and re-created 10 unique warehouses
+INFO:root:Seeded drone fleet - removed old Drone-* drones, keeping only 10 Swift-* drones
+INFO:root:Sample data created successfully
+INFO:root:Seeded warehouses - removed duplicates and re-created 10 unique warehouses
+INFO:root:Seeded drone fleet - removed old Drone-* drones, keeping only 10 Swift-* drones
+[2026-07-10 10:45:33 +0000] [655] [INFO] Worker reloading: /home/runner/workspace/app.py modified
+[2026-07-10 10:45:33 +0000] [655] [INFO] Worker exiting (pid: 655)
+[2026-07-10 10:45:33 +0000] [706] [INFO] Booting worker with pid: 706
+INFO:root:Seeded warehouses - removed duplicates and re-created 10 unique warehouses
+INFO:root:Seeded drone fleet - removed old Drone-* drones, keeping only 10 Swift-* drones
+INFO:root:Sample data created successfully
+[2026-07-10 10:45:44 +0000] [706] [INFO] Worker reloading: /home/runner/workspace/app.py modified
+[2026-07-10 10:45:44 +0000] [706] [INFO] Worker exiting (pid: 706)
+[2026-07-10 10:45:44 +0000] [716] [INFO] Booting worker with pid: 716
+INFO:root:Startup seeding complete
+[2026-07-10 10:46:11 +0000] [644] [INFO] Handling signal: term
+[2026-07-10 10:46:11 +0000] [716] [INFO] Worker exiting (pid: 716)
+[2026-07-10 10:46:11 +0000] [644] [INFO] Shutting down: Master
