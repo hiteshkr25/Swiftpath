@@ -983,6 +983,7 @@ def api_order_status(order_id):
         'route': route,
         'progress_percentage': current_progress['progress'],
         'estimated_delivery': (order.estimated_delivery_time.isoformat() + 'Z') if order.estimated_delivery_time else None,
+        'delivered_at': (order.delivered_at.isoformat() + 'Z') if order.delivered_at else None,
         'drone_battery': round(drone.battery_level, 1) if drone else 0,
         'drone_status': drone.status if drone else 'unknown',
         'drone_name': drone.name if drone else 'N/A',
@@ -1065,6 +1066,7 @@ def api_approve_order(order_id):
 def cancel_order_shared(order, initiator_name):
     """Core order cancellation logic, releasing the assigned drone if any."""
     order.status = 'cancelled'
+    order.delivered_at = datetime.utcnow()
     if order.assigned_drone:
         drone = order.assigned_drone
         send_drone_to_warehouse(drone)
@@ -1075,6 +1077,8 @@ def cancel_order_shared(order, initiator_name):
             f'❌ Order #{order.id} Cancelled by {initiator_name}', 
             order
         )
+        # Release drone
+        order.drone_id = None
     db.session.commit()
 
 

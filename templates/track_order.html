@@ -29,6 +29,11 @@
             </p>
         </div>
         <div class="col-lg-4 text-lg-end">
+            {% if current_user.user_type == 'customer' and order.customer_id == current_user.id %}
+            <button class="btn btn-danger me-2" id="cancelOrderBtn" style="display: {% if order.status in ['pending', 'confirmed', 'processing', 'in_transit'] %}inline-block{% else %}none{% endif %};">
+                ❌ Cancel Order
+            </button>
+            {% endif %}
             <button class="btn btn-outline-primary me-2" id="refreshBtn">
                 <i data-feather="refresh-cw"></i> Refresh
             </button>
@@ -463,11 +468,44 @@ document.addEventListener('DOMContentLoaded', function () {
     `;
     document.head.appendChild(style);
 
+    // Toast helper function
+    function showToast(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.style.position = 'fixed';
+            container.style.top = '20px';
+            container.style.right = '20px';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = `toast show align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0 mb-2`;
+        toast.role = 'alert';
+        toast.ariaLive = 'assertive';
+        toast.ariaAtomic = 'true';
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+        
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.remove();
+        }, 4000);
+    }
+
     // Cancel Order button functionality
     const cancelBtn = document.getElementById('cancelOrderBtn');
     if (cancelBtn) {
         cancelBtn.addEventListener('click', async () => {
-            if (confirm("Are you sure you want to cancel your order?")) {
+            if (confirm("Cancel this order?\n\nThis action cannot be undone.")) {
                 cancelBtn.disabled = true;
                 cancelBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Cancelling...';
                 try {
@@ -476,19 +514,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     const data = await res.json();
                     if (data.success) {
-                        alert("Order cancelled successfully.");
-                        window.location.reload();
+                        showToast("Order cancelled successfully.", "success");
+                        setTimeout(() => {
+                            window.location.href = "{{ url_for('customer_dashboard') }}";
+                        }, 1500);
                     } else {
-                        alert("Error: " + data.error);
+                        showToast("Error: " + data.error, "danger");
                         cancelBtn.disabled = false;
-                        cancelBtn.innerHTML = '<i data-feather="x-circle" class="me-1"></i>Cancel Order';
-                        if (typeof feather !== 'undefined') feather.replace();
+                        cancelBtn.innerHTML = '❌ Cancel Order';
                     }
                 } catch (e) {
-                    alert("Failed to cancel order.");
+                    showToast("Failed to cancel order.", "danger");
                     cancelBtn.disabled = false;
-                    cancelBtn.innerHTML = '<i data-feather="x-circle" class="me-1"></i>Cancel Order';
-                    if (typeof feather !== 'undefined') feather.replace();
+                    cancelBtn.innerHTML = '❌ Cancel Order';
                 }
             }
         });

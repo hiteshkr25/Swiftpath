@@ -184,10 +184,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
+                                                {% if order.status != 'cancelled' %}
                                                 <a href="{{ url_for('track_order', order_id=order.id) }}"
                                                    class="btn btn-outline-primary" title="Track Order">
                                                     <i data-feather="eye"></i>
                                                 </a>
+                                                {% endif %}
                                                 {% if order.status in ['pending', 'confirmed'] %}
                                                 <button class="btn btn-outline-secondary" title="Cancel"
                                                         onclick="cancelOrder({{ order.id }})">
@@ -340,8 +342,22 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function cancelOrder(orderId) {
-    if (confirm('Are you sure you want to cancel this order?')) {
-        alert('Order cancellation requires admin confirmation.');
+    if (confirm("Cancel this order?\n\nThis action cannot be undone.")) {
+        fetch(`/api/cancel_order/${orderId}`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert("Order cancelled successfully.");
+                window.location.reload();
+            } else {
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(err => {
+            alert("Failed to cancel order.");
+        });
     }
 }
 </script>

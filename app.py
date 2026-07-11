@@ -5,6 +5,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.middleware.proxy_fix import ProxyFix
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # IST = UTC + 5:30
 IST_OFFSET = timedelta(hours=5, minutes=30)

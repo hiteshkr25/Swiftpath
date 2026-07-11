@@ -53,8 +53,8 @@ class OrderTrackingManager {
             this.updateMap(data);
             this.updateEventLog(data.recent_events || []);
 
-            // Stop polling once delivered
-            if (data.status === 'delivered' && this.updateInterval) {
+            // Stop polling once delivered, cancelled or failed
+            if (['delivered', 'cancelled', 'failed'].includes(data.status) && this.updateInterval) {
                 clearInterval(this.updateInterval);
                 this.updateInterval = null;
             }
@@ -92,6 +92,16 @@ class OrderTrackingManager {
         if (statusBadge) {
             statusBadge.textContent = this._formatOrderStatus(data.status);
             statusBadge.className = `order-status ${data.status}`;
+        }
+
+        // Cancel button visibility
+        const cancelBtn = document.getElementById('cancelOrderBtn');
+        if (cancelBtn) {
+            if (['pending', 'confirmed', 'processing', 'in_transit'].includes(data.status)) {
+                cancelBtn.style.display = 'inline-block';
+            } else {
+                cancelBtn.style.display = 'none';
+            }
         }
 
         // Progress bar
@@ -152,7 +162,7 @@ class OrderTrackingManager {
             `;
         }
 
-        this.updateStatusTimeline(data.status, data.progress_percentage);
+        this.updateStatusTimeline(data.status, data.progress_percentage, data.delivered_at);
     }
 
     updateWeatherWidget(weather) {
@@ -425,9 +435,35 @@ class OrderTrackingManager {
         this.map.fitBounds();
     }
 
-    updateStatusTimeline(currentStatus, progress) {
+    updateStatusTimeline(currentStatus, progress, deliveredAt) {
         const timeline = document.getElementById('statusTimeline');
         if (!timeline) return;
+
+        if (currentStatus === 'cancelled') {
+            let timeStr = "";
+            if (deliveredAt) {
+                const d = new Date(deliveredAt);
+                timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " " + d.toLocaleDateString();
+            }
+            timeline.innerHTML = `
+                <div class="status-timeline">
+                    <div class="timeline-item active">
+                        <div class="timeline-marker">✅</div>
+                        <div class="timeline-content">
+                            <h6>Order Confirmed</h6>
+                        </div>
+                    </div>
+                    <div class="timeline-item active text-danger">
+                        <div class="timeline-marker bg-danger-subtle text-danger" style="border-color: #dc3545; font-size: 14px; display: flex; align-items: center; justify-content: center;">❌</div>
+                        <div class="timeline-content">
+                            <h6 class="text-danger fw-bold">Order Cancelled by Customer</h6>
+                            ${timeStr ? `<small class="text-muted">${timeStr}</small>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
 
         const steps = ['confirmed', 'in_transit', 'delivered'];
         const labels = { confirmed: 'Order Confirmed', in_transit: 'In Transit', delivered: 'Delivered' };
