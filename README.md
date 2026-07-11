@@ -1,116 +1,118 @@
-# 🚁 SwiftPath - Smart Drone Delivery System
+# 🚁 SwiftPath – Smart Drone Delivery & Route Optimization System
 
-> A full-stack intelligent drone delivery platform that simulates real-world autonomous logistics using **Greedy Algorithm for drone selection** and **Dijkstra's Algorithm for shortest path routing**, featuring live order tracking, fleet management, weather-aware delivery estimation, and an interactive Mission Control Dashboard.
+<p align="center">
+  <img src="assets/logo.png" width="180" alt="SwiftPath Logo"/>
+</p>
+
+<p align="center">
+
+![Python](https://img.shields.io/badge/Python-3.11+-blue)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![SQLite](https://img.shields.io/badge/SQLite-Development-lightgrey)
+![Leaflet](https://img.shields.io/badge/Leaflet-Interactive%20Maps-green)
+![Chart.js](https://img.shields.io/badge/Chart.js-Analytics-orange)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+</p>
 
 ---
 
-## 📌 Overview
+# 📌 Overview
 
-SwiftPath is a web-based drone delivery management system designed to simulate modern logistics operations. The platform enables customers to place orders from multiple warehouses while automatically selecting the most suitable drone and computing the optimal delivery route.
+SwiftPath is a **full-stack intelligent drone delivery management platform** designed to simulate modern logistics operations.
 
-The project demonstrates practical applications of **Data Structures & Algorithms (DAA)**, **Flask Web Development**, **PostgreSQL**, **Leaflet Maps**, and **real-time tracking** in a production-like logistics environment.
+The system allows customers to place delivery orders, automatically assigns the most suitable drone using a **Greedy Battery-Aware Selection Algorithm**, computes the optimal warehouse-to-destination route using **Dijkstra's Shortest Path Algorithm**, and provides real-time delivery tracking through an interactive mission control dashboard.
+
+The application also includes an enterprise-style **Admin Mission Control Dashboard**, live fleet monitoring, analytics, warehouse management, and complete system architecture documentation.
 
 ---
 
-# ✨ Features
+# ✨ Key Features
 
 ## 👤 Customer Module
 
 - User Registration & Login
-- Place Orders
-- Multi-Warehouse Product Selection
-- Real-Time Order Tracking
-- Interactive Delivery Map
-- Live Drone Status
-- Weather-aware ETA
-- Order Timeline
-- Customer Order Cancellation
-- Order History
+- Secure Authentication
+- Place Delivery Orders
+- Interactive Warehouse Selection
+- Live Order Tracking
+- Real-Time Drone Status
+- Delivery History
+- Responsive Dashboard
 
 ---
 
-## 🚁 Drone Management
+## 🚁 Intelligent Drone Allocation
 
-- Fleet of Autonomous Delivery Drones
-- Battery Monitoring
-- Warehouse Docking System
-- Automatic Drone Assignment
-- Drone Status Tracking
-- Delivery Progress Simulation
-- Live Telemetry Updates
+SwiftPath automatically selects the most appropriate drone using a **Greedy Battery-Aware Selection Algorithm**.
 
----
+The algorithm considers:
 
-## 📍 Route Optimization
+- Battery Level
+- Drone Availability
+- Distance from Warehouse
+- Operational Status
 
-### Greedy Algorithm
-
-Used exclusively for **Drone Selection**
-
-The system evaluates:
-
-- Distance from warehouse
-- Battery level
-- Delivery feasibility
-- Return trip feasibility
-
-The best available drone is selected using a greedy optimization strategy.
+The drone requiring the least travel while maintaining sufficient battery is automatically assigned.
 
 ---
 
-### Dijkstra Algorithm
+## 🗺 Route Optimization
 
-Used exclusively for **Shortest Route Optimization**
+After drone selection, the delivery route is optimized using the **Dijkstra Shortest Path Algorithm**.
 
-Features:
+The routing engine:
 
-- Weighted Graph Representation
-- Sparse Flight Corridor Graph
-- Priority Queue (`heapq`)
-- Shortest Path Computation
-- Distance Matrix
-- Route Distance Calculation
-
-The optimized route is stored in the database and visualized during live tracking.
+- Computes shortest warehouse path
+- Calculates cumulative edge weights
+- Minimizes delivery distance
+- Reduces estimated delivery time
+- Supports multiple connected warehouse hubs
 
 ---
 
-## 🛰 Live Tracking
+## 📍 Live Tracking
 
-- Real-Time Drone Position
-- Warehouse Markers
-- Animated Drone Movement
-- Live Delivery Progress
-- Route Visualization
+The tracking system provides:
+
+- Live drone position
+- Active route visualization
+- Warehouse markers
+- Destination marker
+- Route Optimization Panel
+- Interactive Dijkstra Graph
+- Weather Alert Panel
 - Delivery Timeline
-- Live Weather Status
-- ETA Updates
+- ETA updates
 
 ---
 
-## 🌦 Live Weather Integration
+## 🎯 Interactive Dijkstra Visualization
 
-Powered by **Open-Meteo API**
+Unlike a static diagram, SwiftPath includes an interactive graph demonstrating the routing algorithm.
 
-Displays
+Features include:
 
-- Current Temperature
-- Weather Condition
-- Wind Speed
-- Humidity
-- Visibility
-- Drone Flight Status
-- Weather Delay Estimation
+- Start Node
+- Destination Node
+- Warehouse Nodes
+- Shortest Path Highlight
+- Edge Weights
+- Zoom & Pan
+- Fullscreen Mode
+- Route Optimization Details
 
-Weather updates are cached for **15 minutes** to reduce unnecessary API requests.
+The visualization acts purely as a frontend representation while all routing calculations remain on the backend.
 
 ---
 
-## 📊 Logistics Mission Control Dashboard
+## 🛰 Admin Mission Control Dashboard
 
-Professional Admin Dashboard including:
+The Admin Dashboard provides an enterprise-grade logistics control center.
 
-### KPI Cards
+### KPI Dashboard
 
 - Total Deliveries
 - Active Deliveries
@@ -118,107 +120,73 @@ Professional Admin Dashboard including:
 - Cancelled Deliveries
 - Fleet Utilization
 - Available Drones
-- Average Battery Level
 - Average Delivery Time
+- Average Battery Level
 
 ---
 
 ### Fleet Management
 
-- Drone Status
-- Assigned Warehouse
-- Current Destination
+- Live Drone Status
+- Warehouse Assignment
+- Delivery Destination
 - Docked Drones
-- Low Battery Monitoring
+- Active Deliveries
+- Battery Monitoring
 
 ---
 
-### Operations Map
+### Analytics
 
-- Live Fleet Locations
-- Warehouse Locations
-- Active Delivery Routes
-- Drone Tracking
+Interactive Chart.js visualizations include:
 
----
-
-### Mission Event Log
-
-Real-time operational events:
-
-- Drone Assigned
-- Delivery Started
-- Delivery Completed
-- Order Cancelled
-- Drone Docked
-- Battery Alerts
-
----
-
-### Analytics Dashboard
-
-Interactive charts including:
-
-- Deliveries Per Hour
-- Fleet Status Distribution
+- Deliveries per Hour
+- Drone Status Distribution
 - Warehouse Workload
 - Battery Distribution
 - Delivery Success Rate
 
 ---
 
-# 🏗 System Architecture
+### Live Operations Map
 
-The project includes a dedicated **System Architecture** page documenting:
+The Mission Control map displays:
 
-- Customer Module
-- Authentication
-- Warehouse Management
-- Drone Fleet
-- Greedy Drone Selection
-- Dijkstra Route Optimization
-- Delivery Tracking
-- Database Layer
-- Admin Mission Control
+- Standardized Warehouse Network
+- Active Delivery Routes
+- Drone Positions
+- Customer Destinations
 
 ---
 
 # 🧠 Algorithms Used
 
-## Greedy Algorithm
+## Greedy Battery-Aware Drone Selection
 
-Purpose:
+The system evaluates all available drones and selects the optimal candidate based on:
 
-Drone Selection
+- Minimum distance
+- Highest battery
+- Availability
+- Operational readiness
 
-Optimization Factors
-
-- Distance
-- Battery
-- Delivery Capability
-- Return Capability
-
-Time Complexity
-
-```
-O(n)
-```
+This minimizes dispatch time while maintaining delivery efficiency.
 
 ---
 
-## Dijkstra Algorithm
+## Dijkstra Shortest Path Algorithm
 
-Purpose
+The routing engine models the warehouse network as a weighted graph.
 
-Shortest Route Optimization
+Each warehouse represents a node while road distances represent weighted edges.
 
-Data Structures
+The algorithm computes:
 
-- Weighted Graph
-- Priority Queue
-- Adjacency List
+- Shortest Path
+- Minimum Cumulative Edge Weight
+- Optimal Warehouse Sequence
 
-Time Complexity
+Time Complexity:
 
 ```
 O((V + E) log V)
@@ -226,18 +194,73 @@ O((V + E) log V)
 
 ---
 
-# 🗺 Technology Stack
+# 🏗 System Architecture
+
+```
+Customer
+    │
+    ▼
+Authentication
+    │
+    ▼
+Order Placement
+    │
+    ▼
+Greedy Drone Selection
+    │
+    ▼
+Dijkstra Route Optimization
+    │
+    ▼
+Warehouse Network
+    │
+    ▼
+Drone Dispatch
+    │
+    ▼
+Live Tracking
+    │
+    ▼
+Mission Control Dashboard
+```
+
+A dedicated **System Architecture** page is included inside the application for detailed visualization.
+
+---
+
+# 🗄 Database
+
+SwiftPath supports two databases.
+
+### Development
+
+- SQLite
+
+### Production
+
+- PostgreSQL
+
+The application automatically switches databases using the `DATABASE_URL` environment variable.
+
+Safe database seeding prevents accidental deletion of production data.
+
+---
+
+# 🛠 Technology Stack
 
 ## Backend
 
 - Python
 - Flask
-- Flask SQLAlchemy
-- Flask Login
-- PostgreSQL
-- SQLAlchemy ORM
+- SQLAlchemy
+- Flask-Login
+- Flask-WTF
+- Flask-Bcrypt
 
----
+## Database
+
+- PostgreSQL
+- SQLite
 
 ## Frontend
 
@@ -245,35 +268,24 @@ O((V + E) log V)
 - CSS3
 - Bootstrap 5
 - JavaScript
+
+## Visualization
+
 - Leaflet.js
 - Chart.js
-
----
-
-## Database
-
-- PostgreSQL
-- Neon Cloud Database
-
----
+- SVG
 
 ## Deployment
 
 - Render
-- Neon PostgreSQL
-
----
-
-## APIs
-
-- Open-Meteo Weather API
+- Gunicorn
 
 ---
 
 # 📂 Project Structure
 
 ```
-SwiftPath/
+SwiftPath
 │
 ├── static/
 │   ├── css/
@@ -281,105 +293,167 @@ SwiftPath/
 │   └── images/
 │
 ├── templates/
+│   ├── admin_dashboard.html
+│   ├── customer_dashboard.html
+│   ├── track_order.html
+│   ├── place_order.html
+│   └── system_architecture.html
 │
-├── models.py
-├── routes.py
 ├── app.py
-├── main.py
+├── routes.py
+├── models.py
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-# 🚀 Installation
+# 📸 Screenshots
 
-Clone the repository
+## Customer Dashboard
+
+> Add screenshot here
+
+---
+
+## Place Order
+
+> Add screenshot here
+
+---
+
+## Live Tracking
+
+> Add screenshot here
+
+---
+
+## Dijkstra Visualization
+
+> Add screenshot here
+
+---
+
+## Admin Mission Control
+
+> Add screenshot here
+
+---
+
+## System Architecture
+
+> Add screenshot here
+
+---
+
+# ⚙ Installation
+
+## Clone Repository
 
 ```bash
-git clone https://github.com/hiteshkr25/Swiftpath---Smart-Drone-Delivery.git
+git clone https://github.com/yourusername/SwiftPath.git
+
+cd SwiftPath
 ```
 
-Go to project
+---
+
+## Create Virtual Environment
 
 ```bash
-cd Swiftpath---Smart-Drone-Delivery
+python -m venv venv
 ```
 
-Install dependencies
+Activate
+
+Windows
+
+```bash
+venv\Scripts\activate
+```
+
+Linux
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Create a `.env`
+---
 
-```env
-DATABASE_URL=your_postgresql_connection_string
-SESSION_SECRET=your_secret_key
-```
-
-Run
+## Run Application
 
 ```bash
-python main.py
+python app.py
+```
+
+Open
+
+```
+http://127.0.0.1:5000
 ```
 
 ---
 
-# 🗄 Database
+# 🚀 Deployment
 
-The project supports:
+SwiftPath is production-ready and supports deployment on:
 
-- SQLite (Local Development)
-- PostgreSQL (Production)
-- Neon Cloud PostgreSQL
+- Render
+- Railway
+- Replit
+- Docker
+- Any WSGI-compatible cloud platform
 
-Database selection is automatic using the `DATABASE_URL` environment variable.
+Production uses PostgreSQL while local development uses SQLite.
+
+---
+
+# 🔒 Design Principles
+
+- Separation of Concerns
+- Backend as Single Source of Truth
+- Responsive UI
+- Safe Database Initialization
+- Production-Ready Architecture
+- Clean API Design
+- Interactive Algorithm Visualization
 
 ---
 
 # 📈 Future Enhancements
 
-- AI-based Delivery Prediction
-- Multi-Drone Route Optimization
-- Traffic-aware Routing
+- Real Drone GPS Integration
+- AI-Based Route Prediction
+- Weather API Integration
+- Multi-City Warehouse Networks
 - Battery Consumption Prediction
-- Weather Forecast-based Dispatch Planning
-- Drone Maintenance Scheduling
+- Live Traffic Optimization
+- Multi-Drone Coordination
+- Delivery Notifications
 - Mobile Application
-- Push Notifications
-
----
-
-# 🎓 Academic Concepts Demonstrated
-
-- Greedy Algorithms
-- Dijkstra's Algorithm
-- Graph Theory
-- Priority Queues
-- Haversine Distance
-- Shortest Path Problems
-- Fleet Optimization
-- Database Design
-- REST APIs
-- Real-Time Systems
+- Kubernetes Deployment
 
 ---
 
 # 👨‍💻 Developed By
 
-- **Hitesh Kumar**
-- **Anjali Sinha**
-- **Vasu Singh**
-- **Rahul Raj**
+| Name | Role |
+|------|------|
+| **Hitesh Kumar** | Backend Development, Algorithms, Database Design, System Integration |
+| **Anjali Sinha** | Frontend Development, UI/UX Design |
+| **Vasu Singh** | Frontend Development, Testing & Documentation |
+| **Rahul Raj** | Backend Support, Testing & Deployment |
 
 ---
 
 # 📄 License
 
 This project is licensed under the **MIT License**.
-
----
-
-# ⭐ If you found this project useful, consider giving it a star!
