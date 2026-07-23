@@ -446,7 +446,6 @@ Production uses PostgreSQL while local development uses SQLite.
 
 - Real Drone GPS Integration
 - AI-Based Route Prediction
-- Weather API Integration
 - Multi-City Warehouse Networks
 - Battery Consumption Prediction
 - Live Traffic Optimization
