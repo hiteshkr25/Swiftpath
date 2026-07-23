@@ -343,6 +343,7 @@ SwiftPath
 <p align="center">
   <img src="screenshots/dark-mode.png" width="90%">
 </p>
+
 ---
 
 ## Admin Mission Control
@@ -350,6 +351,7 @@ SwiftPath
 <p align="center">
   <img src="screenshots/admin_dashboard.png" width="90%">
 </p>
+
 ---
 
 ## Analytics Page
